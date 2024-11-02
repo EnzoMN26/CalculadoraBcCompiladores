@@ -1,0 +1,9 @@
+para executar o programa siga os seguintes comandos:
+
+java -jar JFlex.jar calc.flex
+
+yacc -tv -J calc.y
+
+javac Parser.java
+
+java Parser
