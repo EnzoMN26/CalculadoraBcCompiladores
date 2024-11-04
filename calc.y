@@ -37,11 +37,11 @@ line:    NL      { if (interactive) System.out.print("\n> "); $$ = null; }
                    if (interactive) System.out.print("\n>: "); }
        | cmd NL
 
-cmd :  IDENT '=' exp ';'            { $$ = new NodoNT(TipoOperacao.ATRIB, $1, (INodo)$3); }
+cmd :  exp ';'            { $$ = $1; }
     |  IF '(' exp ')' cmd           { $$ = new NodoNT(TipoOperacao.IF,(INodo)$3, (INodo)$5, null); }
     |  IF '(' exp ')' cmd ELSE cmd  { $$ = new NodoNT(TipoOperacao.IFELSE,(INodo)$3, (INodo)$5, (INodo)$7); }
     |  WHILE '(' exp ')' cmd       { $$ = new NodoNT(TipoOperacao.WHILE,(INodo)$3, (INodo)$5, null); }
-    |  FOR '(' cmd ';' exp ';' exp ')' cmd {$$ = new NodoNT(TipoOperacao.FOR,(INodo)$3, (INodo)$5, (INodo)$7, (INodo)$9);}
+    |  FOR '(' exp ';' exp ';' exp ')' cmd {$$ = new NodoNT(TipoOperacao.FOR,(INodo)$3, (INodo)$5, (INodo)$7, (INodo)$9);}
     | '{' lcmd '}'                 { $$ = $2; }
     | error ';'                    { $$ = new NodoNT(TipoOperacao.NULL, null, null, null); }
     ;
@@ -52,6 +52,7 @@ lcmd : lcmd cmd                 { $$ = new NodoNT(TipoOperacao.SEQ,(INodo)$1,(IN
 
 
 exp:     NUM                { $$ = new NodoTDouble($1); }
+       | IDENT '=' exp        { $$ = new NodoNT(TipoOperacao.ATRIB, $1, (INodo)$3); }
        | IDENT              { $$ = new NodoID($1); }
        | exp '+' exp        { $$ = new NodoNT(TipoOperacao.ADD,(INodo)$1,(INodo)$3); }
        | exp '-' exp        { $$ = new NodoNT(TipoOperacao.SUB,(INodo)$1,(INodo)$3); }
