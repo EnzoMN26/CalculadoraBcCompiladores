@@ -36,6 +36,7 @@ else  { return Parser.ELSE; }
 while  { return Parser.WHILE; }
 for { return Parser.FOR; }
 print  { return Parser.PRINT; }
+define {return Parser.DEFINE}
 
 
 {NL}   { return Parser.NL; }

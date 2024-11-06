@@ -40,7 +40,10 @@ public class NodoNT implements INodo
 
         ResultValue result = null;
         ResultValue  left, right, expressao;
-        
+
+        if(op == TipoOperacao.FUNCDEF){
+            
+        }
         if (op == TipoOperacao.NULL)
            return null; 
 

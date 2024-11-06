@@ -13,5 +13,7 @@ public enum TipoOperacao
     WHILE,
     SEQ, 
     NULL, 
-    FOR
+    FOR,
+    DEFINE,
+    FUNCDEF
 }

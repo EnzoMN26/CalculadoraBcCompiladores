@@ -6,11 +6,12 @@
       
 %token NL          /* newline  */
 %token <dval> NUM  /* a number */
-%token IF, WHILE, ELSE, PRINT, FOR
+%token IF, WHILE, ELSE, PRINT, FOR, DEFINE
 %token <sval> IDENT
 
 %type <obj> exp, cmd, line, input, lcmd
 
+%nonassoc '='
 %nonassoc '<'
 %left '-' '+'
 %left '*', '/'
@@ -42,9 +43,16 @@ cmd :  exp ';'            { $$ = $1; }
     |  IF '(' exp ')' cmd ELSE cmd  { $$ = new NodoNT(TipoOperacao.IFELSE,(INodo)$3, (INodo)$5, (INodo)$7); }
     |  WHILE '(' exp ')' cmd       { $$ = new NodoNT(TipoOperacao.WHILE,(INodo)$3, (INodo)$5, null); }
     |  FOR '(' exp ';' exp ';' exp ')' cmd {$$ = new NodoNT(TipoOperacao.FOR,(INodo)$3, (INodo)$5, (INodo)$7, (INodo)$9);}
+    |  DEFINE IDENT '(' lparams ')' cmd {$$ = new NodoNT(TipoOperacao.FUNCDEF, (INodo)$2, (INodo)$4, (INodo)$6);}
     | '{' lcmd '}'                 { $$ = $2; }
     | error ';'                    { $$ = new NodoNT(TipoOperacao.NULL, null, null, null); }
     ;
+
+lparams : lparams ',' IDENT
+        | IDENT
+        | 
+      ;
+
       
 lcmd : lcmd cmd                 { $$ = new NodoNT(TipoOperacao.SEQ,(INodo)$1,(INodo)$2); }
      |                          { $$ = new NodoNT(TipoOperacao.NULL, null, null, null); }               
