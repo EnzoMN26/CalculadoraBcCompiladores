@@ -7,7 +7,7 @@
  */
 public class NodoID implements INodo
 {
-private int tipo;
+    private int tipo;
     private String sval;
     
 

@@ -1,4 +1,5 @@
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class NodoNT implements INodo
@@ -17,6 +18,13 @@ public class NodoNT implements INodo
     public NodoNT(TipoOperacao op, String id, INodo se) {
         this.op = op;
         subE = se;
+        ident = id;
+    }
+
+    public NodoNT(TipoOperacao op, String id, INodo se, INodo sd) {
+        this.op = op;
+        subE = se;
+        subD = sd;
         ident = id;
     }
 
@@ -42,7 +50,14 @@ public class NodoNT implements INodo
         ResultValue  left, right, expressao;
 
         if(op == TipoOperacao.FUNCDEF){
-            
+            FuncClass funcao = new FuncClass(ident, subE, subD);
+            Parser.funcMemory.put(ident, funcao);
+        }
+        if(op == TipoOperacao.FUNCCALL){
+            FuncClass funcao = Parser.funcMemory.get(ident);
+            if(funcao.verificaParametros(subE)){
+                funcao.executa();
+            }
         }
         if (op == TipoOperacao.NULL)
            return null; 
@@ -83,10 +98,16 @@ public class NodoNT implements INodo
                    subE.avalia();
             }
         }
-       else if (op == TipoOperacao.SEQ) {
+        else if (op == TipoOperacao.SEQ) {
             subE.avalia();
             subD.avalia();
             
+        }
+        else if (op == TipoOperacao.PARAMS) {
+            ArrayList arrayAux = subE.avalia().getArray();
+            arrayAux.addAll(subD.avalia().getArray());
+            
+            return new ResultValue(arrayAux);
         }
         else {        
             left = subE.avalia();

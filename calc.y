@@ -43,14 +43,14 @@ cmd :  exp ';'            { $$ = $1; }
     |  IF '(' exp ')' cmd ELSE cmd  { $$ = new NodoNT(TipoOperacao.IFELSE,(INodo)$3, (INodo)$5, (INodo)$7); }
     |  WHILE '(' exp ')' cmd       { $$ = new NodoNT(TipoOperacao.WHILE,(INodo)$3, (INodo)$5, null); }
     |  FOR '(' exp ';' exp ';' exp ')' cmd {$$ = new NodoNT(TipoOperacao.FOR,(INodo)$3, (INodo)$5, (INodo)$7, (INodo)$9);}
-    |  DEFINE IDENT '(' lparams ')' cmd {$$ = new NodoNT(TipoOperacao.FUNCDEF, (INodo)$2, (INodo)$4, (INodo)$6);}
+    |  DEFINE IDENT '(' lparams ')' cmd {$$ = new NodoNT(TipoOperacao.FUNCDEF, $2, (INodo)$4, (INodo)$6);}
     | '{' lcmd '}'                 { $$ = $2; }
     | error ';'                    { $$ = new NodoNT(TipoOperacao.NULL, null, null, null); }
     ;
 
-lparams : lparams ',' IDENT
-        | IDENT
-        | 
+lparams : lparams ',' IDENT  {$$ = new NodoNT(TipoOperacao.PARAMS, (INodo)$1, (INodo)$3);}
+        | IDENT              {$$ = new NodoParam($1);}
+        |                    
       ;
 
       
@@ -75,6 +75,7 @@ exp:     NUM                { $$ = new NodoTDouble($1); }
 %%
 
   public static HashMap<String, ResultValue> memory = new HashMap<>();
+  public static HashMap<String, FuncClass> funcMemory = new HashMap<>();
   private Yylex lexer;
 
 

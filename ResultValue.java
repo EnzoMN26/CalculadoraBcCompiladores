@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 /**
  * Write a description of class ResultValue here.
@@ -10,15 +11,27 @@ public class ResultValue
     private TypeEnum type;
     private double dval;
     private boolean bval;
+    private String id;
+    private ArrayList listVal;
     
     public ResultValue(double val){
         type = TypeEnum.DOUBLE;
         dval = val;
     }
 
-     public ResultValue(boolean val){
+    public ResultValue(boolean val){
         type = TypeEnum.BOOLEAN;
         bval = val;
+    }
+
+    public ResultValue(String val){
+        type = TypeEnum.STRING;
+        id = val;
+    }
+
+    public ResultValue(ArrayList val){
+        type = TypeEnum.ARRAY;
+        listVal = val;
     }
     
     public double getDouble() {
@@ -27,6 +40,10 @@ public class ResultValue
     
     public boolean getBool() {
         return bval;
+    }
+
+    public ArrayList getArray() {
+        return listVal;
     }
 
     public String toString() {

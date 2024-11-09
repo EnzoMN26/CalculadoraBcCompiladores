@@ -15,5 +15,7 @@ public enum TipoOperacao
     NULL, 
     FOR,
     DEFINE,
-    FUNCDEF
+    FUNCDEF,
+    PARAMS,
+    FUNCCALL
 }
