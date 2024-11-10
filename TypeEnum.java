@@ -1,5 +1,5 @@
 
 public enum TypeEnum
 {
-    DOUBLE, BOOLEAN, STRING, ARRAY;
+    DOUBLE, BOOLEAN, ARRAY;
 }

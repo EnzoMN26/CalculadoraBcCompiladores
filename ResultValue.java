@@ -11,7 +11,6 @@ public class ResultValue
     private TypeEnum type;
     private double dval;
     private boolean bval;
-    private String id;
     private ArrayList listVal;
     
     public ResultValue(double val){
@@ -22,11 +21,6 @@ public class ResultValue
     public ResultValue(boolean val){
         type = TypeEnum.BOOLEAN;
         bval = val;
-    }
-
-    public ResultValue(String val){
-        type = TypeEnum.STRING;
-        id = val;
     }
 
     public ResultValue(ArrayList val){
@@ -52,6 +46,8 @@ public class ResultValue
                 return Double.toString(dval);
             case BOOLEAN:
                 return Boolean.toString(bval);
+            case ARRAY:
+                return listVal.toString();
             }
             
          return "erro! tipo nao tratado em ResultValue";

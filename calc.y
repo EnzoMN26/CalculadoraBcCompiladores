@@ -9,7 +9,7 @@
 %token IF, WHILE, ELSE, PRINT, FOR, DEFINE
 %token <sval> IDENT
 
-%type <obj> exp, cmd, line, input, lcmd
+%type <obj> exp, cmd, line, input, lcmd, lparams, lpassparams, param, passparam
 
 %nonassoc '='
 %nonassoc '<'
@@ -44,18 +44,29 @@ cmd :  exp ';'            { $$ = $1; }
     |  WHILE '(' exp ')' cmd       { $$ = new NodoNT(TipoOperacao.WHILE,(INodo)$3, (INodo)$5, null); }
     |  FOR '(' exp ';' exp ';' exp ')' cmd {$$ = new NodoNT(TipoOperacao.FOR,(INodo)$3, (INodo)$5, (INodo)$7, (INodo)$9);}
     |  DEFINE IDENT '(' lparams ')' cmd {$$ = new NodoNT(TipoOperacao.FUNCDEF, $2, (INodo)$4, (INodo)$6);}
+    |  IDENT '(' lpassparams ')'  {$$ = new NodoNT(TipoOperacao.FUNCCALL, $1, (INodo)$3);}
     | '{' lcmd '}'                 { $$ = $2; }
-    | error ';'                    { $$ = new NodoNT(TipoOperacao.NULL, null, null, null); }
+    | error ';'                    { $$ = new NodoNT(TipoOperacao.NULL, "", null, null); }
     ;
 
-lparams : lparams ',' IDENT  {$$ = new NodoNT(TipoOperacao.PARAMS, (INodo)$1, (INodo)$3);}
+lparams : lparams ',' param  {$$ = new NodoNT(TipoOperacao.PARAMS, (INodo)$1, (INodo)$3);}
         | IDENT              {$$ = new NodoParam($1);}
-        |                    
+        |                    {$$ = new NodoParam();}
+      ;
+    
+param: IDENT {$$ = new NodoParam($1);}
       ;
 
+lpassparams : lpassparams ',' passparam  {$$ = new NodoNT(TipoOperacao.PARAMS, (INodo)$1, (INodo)$3);}
+        | NUM              {$$ = new NodoParam($1);}
+        |                  {$$ = new NodoParam();}
+      ;  
+
+passparam : NUM {$$ = new NodoParam($1);}
+  	      ;
       
 lcmd : lcmd cmd                 { $$ = new NodoNT(TipoOperacao.SEQ,(INodo)$1,(INodo)$2); }
-     |                          { $$ = new NodoNT(TipoOperacao.NULL, null, null, null); }               
+     |                          { $$ = new NodoNT(TipoOperacao.NULL, "", null, null); }               
      ;
 
 

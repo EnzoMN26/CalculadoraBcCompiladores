@@ -29,6 +29,7 @@ NL  = \n | \r | \r\n
 "(" | 
 ")" |
 "<" |
+"," |
 "="   { return (int) yycharat(0); }
 
 if  { return Parser.IF; }
@@ -36,7 +37,7 @@ else  { return Parser.ELSE; }
 while  { return Parser.WHILE; }
 for { return Parser.FOR; }
 print  { return Parser.PRINT; }
-define {return Parser.DEFINE}
+define {return Parser.DEFINE;}
 
 
 {NL}   { return Parser.NL; }

@@ -3,6 +3,9 @@ import java.util.ArrayList;
 public class NodoParam implements INodo{
     private ArrayList vals;
     
+    public NodoParam() {
+        vals = new ArrayList<>();
+    }
 
     public NodoParam(String valor) {
         vals = new ArrayList<>();
