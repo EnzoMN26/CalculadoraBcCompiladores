@@ -53,16 +53,16 @@ public class NodoNT implements INodo
             FuncClass funcao = new FuncClass(ident, subE, subD);
             Parser.funcMemory.put(ident, funcao);
         }
-        if(op == TipoOperacao.FUNCCALL){
+        else if(op == TipoOperacao.FUNCCALL){
             FuncClass funcao = Parser.funcMemory.get(ident);
             if(funcao.verificaParametros(subE)){
                 funcao.executa();
             }
         }
-        if (op == TipoOperacao.NULL)
+        else if (op == TipoOperacao.NULL)
            return null; 
 
-        if (op == TipoOperacao.UMINUS) 
+        else if (op == TipoOperacao.UMINUS) 
              result = new ResultValue(-1.0 * subE.avalia().getDouble()) ;
 
         else if (op == TipoOperacao.ATRIB) {

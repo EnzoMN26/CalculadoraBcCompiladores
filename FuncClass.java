@@ -16,7 +16,8 @@ public class FuncClass {
         ArrayList parametrosValores = valores.avalia().getArray();
         if(parametros.size() == parametrosValores.size()){
             for(int i = 0; i<parametros.size();i++){
-                Parser.memory.put((String)parametros.get(i), (ResultValue)parametrosValores.get(i)); 
+                System.out.println((String)parametros.get(i) + " = " + (Double)parametrosValores.get(i));
+                Parser.memory.put((String)parametros.get(i), new ResultValue((Double)parametrosValores.get(i))); 
             }
             return true;
         }
