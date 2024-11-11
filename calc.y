@@ -58,11 +58,11 @@ param: IDENT {$$ = new NodoParam($1);}
       ;
 
 lpassparams : lpassparams ',' passparam  {$$ = new NodoNT(TipoOperacao.PARAMS, (INodo)$1, (INodo)$3);}
-        | NUM              {$$ = new NodoParam($1);}
+        | exp              {$$ = new NodoParam((INodo)$1);}
         |                  {$$ = new NodoParam();}
       ;  
 
-passparam : NUM {$$ = new NodoParam($1);}
+passparam : exp {$$ = new NodoParam((INodo)$1);}
   	      ;
       
 lcmd : lcmd cmd                 { $$ = new NodoNT(TipoOperacao.SEQ,(INodo)$1,(INodo)$2); }

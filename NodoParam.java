@@ -12,9 +12,9 @@ public class NodoParam implements INodo{
         vals.add(valor); 
     }
 
-    public NodoParam(double valor) {
+    public NodoParam(INodo valor) {
         vals = new ArrayList<>();
-        vals.add(valor); 
+        vals.add(valor.avalia().getDouble()); 
     }
 
     public ResultValue avalia() {
