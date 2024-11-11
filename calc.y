@@ -2,6 +2,8 @@
 %{
   import java.io.*;
   import java.util.HashMap;
+  import java.util.LinkedList;
+  import java.util.Queue;
 %}
       
 %token NL          /* newline  */
@@ -87,6 +89,7 @@ exp:     NUM                { $$ = new NodoTDouble($1); }
 
   public static HashMap<String, ResultValue> memory = new HashMap<>();
   public static HashMap<String, FuncClass> funcMemory = new HashMap<>();
+  Queue<HashMap<String, ResultValue>> queueContext = new LinkedList<>();
   private Yylex lexer;
 
 
@@ -130,6 +133,8 @@ exp:     NUM                { $$ = new NodoTDouble($1); }
       interactive = true;
 	    yyparser = new Parser(new InputStreamReader(System.in));
     }
+
+    queueContext.add(memory);
 
     yyparser.yyparse();
     
