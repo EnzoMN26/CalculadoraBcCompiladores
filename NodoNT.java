@@ -55,9 +55,11 @@ public class NodoNT implements INodo
         }
         else if(op == TipoOperacao.FUNCCALL){
             FuncClass funcao = Parser.funcMemory.get(ident);
+            Parser.stackContext.push(new HashMap<String, ResultValue>());
             if(funcao.verificaParametros(subE)){
                 funcao.executa();
             }
+            Parser.stackContext.pop();
         }
         else if (op == TipoOperacao.NULL)
            return null; 
@@ -67,7 +69,7 @@ public class NodoNT implements INodo
 
         else if (op == TipoOperacao.ATRIB) {
              result = subE.avalia();
-             Parser.queueContext.peek().put(ident, result);    
+             Parser.stackContext.peek().put(ident, result);    
              //System.out.printf("sube: %s, %s <- %f\n", subE, ident, result.getDouble());         
         }
 

@@ -2,8 +2,7 @@
 %{
   import java.io.*;
   import java.util.HashMap;
-  import java.util.LinkedList;
-  import java.util.Queue;
+  import java.util.Stack;
 %}
       
 %token NL          /* newline  */
@@ -89,7 +88,7 @@ exp:     NUM                { $$ = new NodoTDouble($1); }
 
   public static HashMap<String, ResultValue> memory = new HashMap<>();
   public static HashMap<String, FuncClass> funcMemory = new HashMap<>();
-  Queue<HashMap<String, ResultValue>> queueContext = new LinkedList<>();
+  public static Stack<HashMap<String, ResultValue>> stackContext = new Stack<>();
   private Yylex lexer;
 
 
@@ -134,7 +133,7 @@ exp:     NUM                { $$ = new NodoTDouble($1); }
 	    yyparser = new Parser(new InputStreamReader(System.in));
     }
 
-    queueContext.add(memory);
+    stackContext.push(memory);
 
     yyparser.yyparse();
     

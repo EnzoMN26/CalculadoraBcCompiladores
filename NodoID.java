@@ -16,8 +16,8 @@ public class NodoID implements INodo
     }
 
     public ResultValue avalia() {
-         if (Parser.queueContext.peek().containsKey(sval))
-            return new ResultValue(Parser.queueContext.peek().get(sval).getDouble());
+         if (Parser.stackContext.peek().containsKey(sval))
+            return new ResultValue(Parser.stackContext.peek().get(sval).getDouble());
          else 
             return new ResultValue(0);              
     }

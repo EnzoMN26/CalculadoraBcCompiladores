@@ -16,7 +16,7 @@ public class FuncClass {
         ArrayList parametrosValores = valores.avalia().getArray();
         if(parametros.size() == parametrosValores.size()){
             for(int i = 0; i<parametros.size();i++){
-                Parser.queueContext.peek().put((String)parametros.get(i), new ResultValue((Double)parametrosValores.get(i))); 
+                Parser.stackContext.peek().put((String)parametros.get(i), new ResultValue((Double)parametrosValores.get(i))); 
             }
             return true;
         }
