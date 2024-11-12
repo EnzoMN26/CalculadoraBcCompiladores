@@ -7,10 +7,10 @@
       
 %token NL          /* newline  */
 %token <dval> NUM  /* a number */
-%token IF, WHILE, ELSE, PRINT, FOR, DEFINE
+%token IF, WHILE, ELSE, PRINT, FOR, DEFINE, RETURN
 %token <sval> IDENT
 
-%type <obj> exp, cmd, line, input, lcmd, lparams, lpassparams, param, passparam
+%type <obj> exp, cmd, line, input, lcmd, lparams, lpassparams, param, passparam, retorno
 
 %nonassoc '='
 %nonassoc '<'
@@ -44,11 +44,16 @@ cmd :  exp ';'            { $$ = $1; }
     |  IF '(' exp ')' cmd ELSE cmd  { $$ = new NodoNT(TipoOperacao.IFELSE,(INodo)$3, (INodo)$5, (INodo)$7); }
     |  WHILE '(' exp ')' cmd       { $$ = new NodoNT(TipoOperacao.WHILE,(INodo)$3, (INodo)$5, null); }
     |  FOR '(' exp ';' exp ';' exp ')' cmd {$$ = new NodoNT(TipoOperacao.FOR,(INodo)$3, (INodo)$5, (INodo)$7, (INodo)$9);}
+    |  RETURN retorno {$$ = new NodoNT(TipoOperacao.RETURN, (INodo)$2);}
     |  DEFINE IDENT '(' lparams ')' cmd {$$ = new NodoNT(TipoOperacao.FUNCDEF, $2, (INodo)$4, (INodo)$6);}
     |  IDENT '(' lpassparams ')'  {$$ = new NodoNT(TipoOperacao.FUNCCALL, $1, (INodo)$3);}
     | '{' lcmd '}'                 { $$ = $2; }
     | error ';'                    { $$ = new NodoNT(TipoOperacao.NULL, "", null, null); }
     ;
+
+retorno : cmd ';' {$$ = $1;}
+        | exp ';' {$$ = $1;}
+      ;
 
 lparams : lparams ',' param  {$$ = new NodoNT(TipoOperacao.PARAMS, (INodo)$1, (INodo)$3);}
         | IDENT              {$$ = new NodoParam($1);}
@@ -72,7 +77,7 @@ lcmd : lcmd cmd                 { $$ = new NodoNT(TipoOperacao.SEQ,(INodo)$1,(IN
 
 
 exp:     NUM                { $$ = new NodoTDouble($1); }
-       | IDENT '=' exp        { $$ = new NodoNT(TipoOperacao.ATRIB, $1, (INodo)$3); }
+       | IDENT '=' retorno  { $$ = new NodoNT(TipoOperacao.ATRIB, $1, (INodo)$3); }
        | IDENT              { $$ = new NodoID($1); }
        | exp '+' exp        { $$ = new NodoNT(TipoOperacao.ADD,(INodo)$1,(INodo)$3); }
        | exp '-' exp        { $$ = new NodoNT(TipoOperacao.SUB,(INodo)$1,(INodo)$3); }
@@ -89,6 +94,7 @@ exp:     NUM                { $$ = new NodoTDouble($1); }
   public static HashMap<String, ResultValue> memory = new HashMap<>();
   public static HashMap<String, FuncClass> funcMemory = new HashMap<>();
   public static Stack<HashMap<String, ResultValue>> stackContext = new Stack<>();
+  public static boolean returnFlag = false;
   private Yylex lexer;
 
 

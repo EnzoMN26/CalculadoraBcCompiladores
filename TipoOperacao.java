@@ -17,5 +17,6 @@ public enum TipoOperacao
     DEFINE,
     FUNCDEF,
     PARAMS,
-    FUNCCALL
+    FUNCCALL,
+    RETURN
 }

@@ -9,6 +9,11 @@ public class NodoNT implements INodo
     private INodo expr;
     private String ident;
 
+    public NodoNT(TipoOperacao op, INodo exp) {
+        this.op = op;
+        expr = exp;
+    }
+
     public NodoNT(TipoOperacao op, INodo se, INodo sd) {
         this.op = op;
         subE = se;
@@ -49,6 +54,10 @@ public class NodoNT implements INodo
         ResultValue result = null;
         ResultValue  left, right, expressao;
 
+        if(Parser.returnFlag){
+            return result;
+        }
+
         if(op == TipoOperacao.FUNCDEF){
             FuncClass funcao = new FuncClass(ident, subE, subD);
             Parser.funcMemory.put(ident, funcao);
@@ -59,7 +68,15 @@ public class NodoNT implements INodo
             if(funcao.verificaParametros(subE)){
                 funcao.executa();
             }
+            if(Parser.stackContext.peek().containsKey("return")){
+                result = Parser.stackContext.peek().get("return");
+            }
             Parser.stackContext.pop();
+            Parser.returnFlag = false;
+        }
+        else if (op == TipoOperacao.RETURN){
+            Parser.stackContext.peek().put("return", expr.avalia());
+            Parser.returnFlag = true;
         }
         else if (op == TipoOperacao.NULL)
            return null; 
