@@ -78,7 +78,7 @@ lcmd : lcmd cmd                 { $$ = new NodoNT(TipoOperacao.SEQ,(INodo)$1,(IN
 
 exp:     NUM                { $$ = new NodoTDouble($1); }
        | IDENT '=' retorno  { $$ = new NodoNT(TipoOperacao.ATRIB, $1, (INodo)$3); }
-       | IDENT              { $$ = new NodoID($1); }
+       | IDENT              { $$ = new NodoID($1);}
        | exp '+' exp        { $$ = new NodoNT(TipoOperacao.ADD,(INodo)$1,(INodo)$3); }
        | exp '-' exp        { $$ = new NodoNT(TipoOperacao.SUB,(INodo)$1,(INodo)$3); }
        | exp '*' exp        { $$ = new NodoNT(TipoOperacao.MULL,(INodo)$1,(INodo)$3); }

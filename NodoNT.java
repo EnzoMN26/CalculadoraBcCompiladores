@@ -64,7 +64,6 @@ public class NodoNT implements INodo
         }
         else if(op == TipoOperacao.FUNCCALL){
             FuncClass funcao = Parser.funcMemory.get(ident);
-            Parser.stackContext.push(new HashMap<String, ResultValue>());
             if(funcao.verificaParametros(subE)){
                 funcao.executa();
             }

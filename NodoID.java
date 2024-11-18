@@ -16,10 +16,14 @@ public class NodoID implements INodo
     }
 
     public ResultValue avalia() {
-         if (Parser.stackContext.peek().containsKey(sval))
+         if (Parser.stackContext.peek().containsKey(sval)){
             return new ResultValue(Parser.stackContext.peek().get(sval).getDouble());
-         else 
+         }
+         else {
             return new ResultValue(0);              
+
+         }
+        
     }
     
     public String toString() {

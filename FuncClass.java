@@ -1,22 +1,23 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FuncClass {
     private String id;
-    private INodo params;
+    private ArrayList params;
     private INodo cmds;
 
     public FuncClass(String id, INodo params, INodo cmds){
         this.id = id;
-        this.params = params;
+        this.params = params.avalia().getArray();
         this.cmds = cmds;
     }
 
     public boolean verificaParametros(INodo valores){
-        ArrayList parametros = params.avalia().getArray();
         ArrayList parametrosValores = valores.avalia().getArray();
-        if(parametros.size() == parametrosValores.size()){
-            for(int i = 0; i<parametros.size();i++){
-                Parser.stackContext.peek().put((String)parametros.get(i), new ResultValue((Double)parametrosValores.get(i))); 
+        Parser.stackContext.push(new HashMap<String, ResultValue>());
+        if(params.size() == parametrosValores.size()){
+            for(int i = 0; i<params.size();i++){
+                Parser.stackContext.peek().put((String)params.get(i), new ResultValue((Double)parametrosValores.get(i))); 
             }
             return true;
         }
