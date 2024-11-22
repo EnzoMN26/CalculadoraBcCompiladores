@@ -10,7 +10,7 @@
 %token IF, WHILE, ELSE, PRINT, FOR, DEFINE, RETURN
 %token <sval> IDENT
 
-%type <obj> exp, cmd, line, input, lcmd, lparams, lpassparams, param, passparam, retorno
+%type <obj> exp, cmd, line, input, lcmd, lparams, lpassparams, param, passparam, retorno, comando
 
 %nonassoc '='
 %nonassoc '<'
@@ -47,12 +47,17 @@ cmd :  exp ';'            { $$ = $1; }
     |  DEFINE IDENT '(' lparams ')' cmd {$$ = new NodoNT(TipoOperacao.FUNCDEF, $2, (INodo)$4, (INodo)$6);}
     |  IDENT '(' lpassparams ')'  {$$ = new NodoNT(TipoOperacao.FUNCCALL, $1, (INodo)$3);}
     | '{' lcmd '}'                 { $$ = $2; }
+    | '#' comando { $$ = $2; }
     | error ';'                    { $$ = new NodoNT(TipoOperacao.NULL, "", null, null); }
     ;
 
 retorno : cmd ';' {$$ = $1;}
         | exp ';' {$$ = $1;}
       ;
+
+comando : IDENT {if($1.equals("help")){System.out.println("atribuicoes e returns precisam possuir ';' ao final");}
+                 else if($1.equals("showall")){System.out.println("show_all");}; $$ = new NodoID($1);}
+        ;
 
 lparams : lparams ',' param  {$$ = new NodoNT(TipoOperacao.PARAMS, (INodo)$1, (INodo)$3);}
         | IDENT              {$$ = new NodoParam($1);}
