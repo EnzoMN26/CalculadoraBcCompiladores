@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public class NodoParam implements INodo{
     private ArrayList vals;
     private String valorStr = null;
+    private double valorDouble = 0;
     private INodo valorNodo = null;
     
     public NodoParam() {
@@ -25,13 +26,19 @@ public class NodoParam implements INodo{
             vals.add(valorStr);
         }
         else{
-            vals.add(valorNodo.avalia().getDouble());
+            valorDouble = valorNodo.avalia().getDouble();
+            vals.add(valorDouble);
         }
 
         return new ResultValue(vals);          
     }
     
     public String toString() {
-            return vals.toString();
-        }       
+        if(valorStr != null){
+            return valorStr;
+        }
+        else{
+            return ""+valorDouble;
+        }
+    }       
 }

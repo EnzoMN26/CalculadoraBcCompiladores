@@ -85,6 +85,7 @@ public class NodoNT implements INodo
 
         else if (op == TipoOperacao.ATRIB) {
              result = subE.avalia();
+             System.out.println(ident + " = " + result.getDouble());
              Parser.stackContext.peek().put(ident, result);    
              //System.out.printf("sube: %s, %s <- %f\n", subE, ident, result.getDouble());         
         }
