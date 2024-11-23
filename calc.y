@@ -61,7 +61,8 @@ retorno : cmd ';' {$$ = $1;}
       ;
 
 comando : IDENT {if($1.equals("help")){System.out.println("atribuicoes e returns precisam possuir ';' ao final");}
-                 else if($1.equals("showall")){System.out.println("show_all");}; $$ = new NodoID($1);}
+                 else if($1.equals("showall")){printTable();}; $$ = new NodoID($1);}
+        | IDENT IDENT {if($1.equals("show")){printTableByIdent($2);}; $$ = new NodoID($1);}
         ;
 
 lparams : lparams ',' param  {$$ = new NodoNT(TipoOperacao.PARAMS, (INodo)$1, (INodo)$3);}
@@ -160,5 +161,24 @@ exp:     NUM                { $$ = new NodoTDouble($1); }
     if (interactive) {
       System.out.println();
       System.out.println("Have a nice day");
+    }
+  }
+
+  public static void printTable(){
+    HashMap<String, ResultValue> pilha = Parser.stackContext.peek();
+    for (HashMap.Entry<String, ResultValue> linha : pilha.entrySet()) {
+      String chave = linha.getKey();
+      ResultValue valor = linha.getValue();
+      System.out.println(chave + " -> " + valor.toString());
+    }
+  }
+
+  public static void printTableByIdent(String ident){
+    HashMap<String, ResultValue> pilha = Parser.stackContext.peek();
+    if(pilha.containsKey(ident)){
+      System.out.println(ident + " -> " + pilha.get(ident));
+    }
+    else{
+      System.out.println("Nenhum valor encontrado que corresponda ao identificador informado.");
     }
   }
