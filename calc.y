@@ -8,7 +8,7 @@
 %token NL          /* newline  */
 %token <dval> NUM  /* a number */
 %token IF, WHILE, ELSE, PRINT, FOR, DEFINE, RETURN, MaiorIgual, MenorIgual, IGUAL, DIFERENTE
-%token <sval> IDENT
+%token <sval> IDENT, SHOW, SHOWALL, HELP
 
 %type <obj> exp, cmd, line, input, lcmd, lparams, lpassparams, param, passparam, retorno, comando
 
@@ -60,9 +60,9 @@ retorno : cmd ';' {$$ = $1;}
         | exp ';' {$$ = $1;}
       ;
 
-comando : IDENT {if($1.equals("help")){System.out.println("atribuicoes e returns precisam possuir ';' ao final");}
-                 else if($1.equals("showall")){printTable();}; $$ = new NodoID($1);}
-        | IDENT IDENT {if($1.equals("show")){printTableByIdent($2);}; $$ = new NodoID($1);}
+comando : SHOW IDENT {printTableByIdent($2); $$ = new NodoID($1);}
+        | SHOWALL {printTable();  $$ = new NodoID($1);}
+        | HELP {System.out.println("atribuicoes e returns precisam possuir ';' ao final"); $$ = new NodoID($1);}
         ;
 
 lparams : lparams ',' param  {$$ = new NodoNT(TipoOperacao.PARAMS, (INodo)$1, (INodo)$3);}

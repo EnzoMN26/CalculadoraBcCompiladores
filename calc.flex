@@ -41,10 +41,14 @@ for { return Parser.FOR; }
 print  { return Parser.PRINT; }
 define {return Parser.DEFINE;}
 return {return Parser.RETURN;}
+show {return Parser.SHOW;}
+help {return Parser.HELP;}
+"show_all" {return Parser.SHOWALL;}
 ">=" {return Parser.MaiorIgual;}
 "<=" {return Parser.MenorIgual;}
 "==" {return Parser.IGUAL;}
 "!=" {return Parser.DIFERENTE;}
+
 
 
 
