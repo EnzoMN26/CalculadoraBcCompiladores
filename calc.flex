@@ -29,6 +29,7 @@ NL  = \n | \r | \r\n
 "(" | 
 ")" |
 "<" |
+">" |
 "," |
 "#" |
 "="   { return (int) yycharat(0); }
@@ -40,6 +41,10 @@ for { return Parser.FOR; }
 print  { return Parser.PRINT; }
 define {return Parser.DEFINE;}
 return {return Parser.RETURN;}
+">=" {return Parser.MaiorIgual;}
+"<=" {return Parser.MenorIgual;}
+"==" {return Parser.IGUAL;}
+"!=" {return Parser.DIFERENTE;}
 
 
 

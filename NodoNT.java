@@ -149,7 +149,22 @@ public class NodoNT implements INodo
               break;
             case LESS:
               result = new ResultValue(left.getDouble() < right.getDouble());
-              break;                    
+              break;   
+            case MAIOR:
+                result = new ResultValue(left.getDouble() > right.getDouble());
+                break;    
+            case MAIORIGUAL:
+                result = new ResultValue(left.getDouble() >= right.getDouble());
+                break;    
+            case MENORIGUAL:
+                result = new ResultValue(left.getDouble() <= right.getDouble());
+                break;    
+            case IGUAL:
+                result = new ResultValue(left.getDouble() == right.getDouble());
+                break;    
+            case DIFERENTE:
+                result = new ResultValue(left.getDouble() != right.getDouble());
+                break;                  
             default:
               result = new ResultValue(0);
             }

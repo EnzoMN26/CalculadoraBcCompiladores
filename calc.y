@@ -7,12 +7,17 @@
       
 %token NL          /* newline  */
 %token <dval> NUM  /* a number */
-%token IF, WHILE, ELSE, PRINT, FOR, DEFINE, RETURN
+%token IF, WHILE, ELSE, PRINT, FOR, DEFINE, RETURN, MaiorIgual, MenorIgual, IGUAL, DIFERENTE
 %token <sval> IDENT
 
 %type <obj> exp, cmd, line, input, lcmd, lparams, lpassparams, param, passparam, retorno, comando
 
 %nonassoc '='
+%nonassoc MaiorIgual
+%nonassoc MenorIgual
+%nonassoc IGUAL
+%nonassoc DIFERENTE
+%nonassoc '>'
 %nonassoc '<'
 %left '-' '+'
 %left '*', '/'
@@ -88,6 +93,11 @@ exp:     NUM                { $$ = new NodoTDouble($1); }
        | exp '*' exp        { $$ = new NodoNT(TipoOperacao.MULL,(INodo)$1,(INodo)$3); }
        | exp '/' exp        { $$ = new NodoNT(TipoOperacao.DIV,(INodo)$1,(INodo)$3); }
        | exp '<' exp        { $$ = new NodoNT(TipoOperacao.LESS,(INodo)$1,(INodo)$3); }
+       | exp '>' exp        { $$ = new NodoNT(TipoOperacao.MAIOR,(INodo)$1,(INodo)$3); }
+       | exp MaiorIgual exp { $$ = new NodoNT(TipoOperacao.MAIORIGUAL,(INodo)$1,(INodo)$3); }
+       | exp MenorIgual exp { $$ = new NodoNT(TipoOperacao.MENORIGUAL,(INodo)$1,(INodo)$3); }
+       | exp IGUAL exp      { $$ = new NodoNT(TipoOperacao.IGUAL,(INodo)$1,(INodo)$3); }
+       | exp DIFERENTE exp  { $$ = new NodoNT(TipoOperacao.DIFERENTE,(INodo)$1,(INodo)$3); }
        | '-' exp  %prec NEG { $$ = new NodoNT(TipoOperacao.UMINUS,(INodo)$2,null); }
        | exp '^' exp        { $$ = new NodoNT(TipoOperacao.POW,(INodo)$1,(INodo)$3); }
        | '(' exp ')'        { $$ = $2; }

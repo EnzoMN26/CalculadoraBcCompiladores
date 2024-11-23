@@ -18,5 +18,10 @@ public enum TipoOperacao
     FUNCDEF,
     PARAMS,
     FUNCCALL,
-    RETURN
+    RETURN,
+    MAIOR,
+    MAIORIGUAL,
+    MENORIGUAL,
+    IGUAL,
+    DIFERENTE
 }
