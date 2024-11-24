@@ -7,11 +7,13 @@
       
 %token NL          /* newline  */
 %token <dval> NUM  /* a number */
-%token IF, WHILE, ELSE, PRINT, FOR, DEFINE, RETURN, MaiorIgual, MenorIgual, IGUAL, DIFERENTE, AND, OR
+%token IF, WHILE, ELSE, PRINT, FOR, DEFINE, RETURN, MaiorIgual, MenorIgual, IGUAL, DIFERENTE, AND, OR, MaisIgual, MultIgual
 %token <sval> IDENT, SHOW, SHOWALL, HELP
 
-%type <obj> exp, cmd, line, input, lcmd, lparams, lpassparams, param, passparam, retorno, comando
+%type <obj> exp, cmd, line, input, lcmd, lparams, lpassparams, param, passparam, comando
 
+%nonassoc MaisIgual
+%nonassoc MultIgual
 %nonassoc AND
 %nonassoc OR
 %nonassoc '!'
@@ -51,16 +53,13 @@ cmd :  exp ';'            { $$ = $1; }
     |  IF '(' exp ')' cmd ELSE cmd  { $$ = new NodoNT(TipoOperacao.IFELSE,(INodo)$3, (INodo)$5, (INodo)$7); }
     |  WHILE '(' exp ')' cmd       { $$ = new NodoNT(TipoOperacao.WHILE,(INodo)$3, (INodo)$5, null); }
     |  FOR '(' exp ';' exp ';' exp ')' cmd {$$ = new NodoNT(TipoOperacao.FOR,(INodo)$3, (INodo)$5, (INodo)$7, (INodo)$9);}
-    |  RETURN retorno {$$ = new NodoNT(TipoOperacao.RETURN, (INodo)$2);}
+    |  RETURN exp ';' {$$ = new NodoNT(TipoOperacao.RETURN, (INodo)$2);}
     |  DEFINE IDENT '(' lparams ')' cmd {$$ = new NodoNT(TipoOperacao.FUNCDEF, $2, (INodo)$4, (INodo)$6);}
     | '{' lcmd '}'                 { $$ = $2; }
     | '#' comando { $$ = $2; }
     | error ';'                    { $$ = new NodoNT(TipoOperacao.NULL, "", null, null); }
     ;
 
-retorno : cmd ';' {$$ = $1;}
-        | exp ';' {$$ = $1;}
-      ;
 
 comando : SHOW IDENT {printTableByIdent($2); $$ = new NodoID($1);}
         | SHOWALL {printTable();  $$ = new NodoID($1);}
@@ -89,7 +88,9 @@ lcmd : lcmd cmd                 { $$ = new NodoNT(TipoOperacao.SEQ,(INodo)$1,(IN
 
 
 exp:     NUM                { $$ = new NodoTDouble($1); }
-       | IDENT '=' retorno  { $$ = new NodoNT(TipoOperacao.ATRIB, $1, (INodo)$3); }
+       | IDENT '=' exp  { $$ = new NodoNT(TipoOperacao.ATRIB, $1, (INodo)$3); }
+       | IDENT MaisIgual exp  { $$ = new NodoNT(TipoOperacao.MAISIGUAL, $1, (INodo)$3); }
+       | IDENT MultIgual exp  { $$ = new NodoNT(TipoOperacao.MULTIGUAL, $1, (INodo)$3); }
        | IDENT              { $$ = new NodoID($1);}
        | exp '+' exp        { $$ = new NodoNT(TipoOperacao.ADD,(INodo)$1,(INodo)$3); }
        | exp '-' exp        { $$ = new NodoNT(TipoOperacao.SUB,(INodo)$1,(INodo)$3); }

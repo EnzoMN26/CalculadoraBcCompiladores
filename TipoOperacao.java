@@ -26,5 +26,7 @@ public enum TipoOperacao
     DIFERENTE,
     AND,
     OR,
-    NEGACAO
+    NEGACAO,
+    MAISIGUAL,
+    MULTIGUAL
 }

@@ -51,7 +51,8 @@ help {return Parser.HELP;}
 "!=" {return Parser.DIFERENTE;}
 "&&" {return Parser.AND;}
 "||" {return Parser.OR;}
-
+"+=" {return Parser.MaisIgual;}
+"*=" {return Parser.MultIgual;}
 
 
 

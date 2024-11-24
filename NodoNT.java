@@ -89,7 +89,28 @@ public class NodoNT implements INodo
              Parser.stackContext.peek().put(ident, result);    
              //System.out.printf("sube: %s, %s <- %f\n", subE, ident, result.getDouble());         
         }
-
+        else if (op == TipoOperacao.MAISIGUAL) {
+            result = subE.avalia();
+            double valor = 0;
+            if(Parser.stackContext.peek().containsKey(ident)){
+                valor = Parser.stackContext.peek().get(ident).getDouble();
+            }
+            result = new ResultValue(result.getDouble() + valor);
+            System.out.println(ident + " = " + result.getDouble());
+            Parser.stackContext.peek().put(ident, result);    
+            //System.out.printf("sube: %s, %s <- %f\n", subE, ident, result.getDouble());         
+       }
+       else if (op == TipoOperacao.MULTIGUAL) {
+            result = subE.avalia();
+            double valor = 1;
+            if(Parser.stackContext.peek().containsKey(ident)){
+                valor = Parser.stackContext.peek().get(ident).getDouble();
+            }
+            result = new ResultValue(result.getDouble() * valor);
+            System.out.println(ident + " = " + result.getDouble());
+            Parser.stackContext.peek().put(ident, result);    
+            //System.out.printf("sube: %s, %s <- %f\n", subE, ident, result.getDouble());         
+        }
        else if (op == TipoOperacao.IF) {
              expressao = expr.avalia();
              if (expressao.getBool())
