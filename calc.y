@@ -12,6 +12,7 @@
 
 %type <obj> exp, cmd, line, input, lcmd, lparams, lpassparams, param, passparam, comando
 
+%nonassoc PRINT
 %nonassoc MaisIgual
 %nonassoc MultIgual
 %nonassoc AND
@@ -55,6 +56,7 @@ cmd :  exp ';'            { $$ = $1; }
     |  FOR '(' exp ';' exp ';' exp ')' cmd {$$ = new NodoNT(TipoOperacao.FOR,(INodo)$3, (INodo)$5, (INodo)$7, (INodo)$9);}
     |  RETURN exp ';' {$$ = new NodoNT(TipoOperacao.RETURN, (INodo)$2);}
     |  DEFINE IDENT '(' lparams ')' cmd {$$ = new NodoNT(TipoOperacao.FUNCDEF, $2, (INodo)$4, (INodo)$6);}
+    |  PRINT exp ';' {$$ = new NodoNT(TipoOperacao.PRINT, (INodo)$2);}
     | '{' lcmd '}'                 { $$ = $2; }
     | '#' comando { $$ = $2; }
     | error ';'                    { $$ = new NodoNT(TipoOperacao.NULL, "", null, null); }
@@ -63,7 +65,7 @@ cmd :  exp ';'            { $$ = $1; }
 
 comando : SHOW IDENT {printTableByIdent($2); $$ = new NodoID($1);}
         | SHOWALL {printTable();  $$ = new NodoID($1);}
-        | HELP {System.out.println("atribuicoes e returns precisam possuir ';' ao final"); $$ = new NodoID($1);}
+        | HELP {System.out.println("return e print precisam possuir ';' ao final"); $$ = new NodoID($1);}
         ;
 
 lparams : lparams ',' param  {$$ = new NodoNT(TipoOperacao.PARAMS, (INodo)$1, (INodo)$3);}

@@ -28,5 +28,6 @@ public enum TipoOperacao
     OR,
     NEGACAO,
     MAISIGUAL,
-    MULTIGUAL
+    MULTIGUAL,
+    PRINT
 }

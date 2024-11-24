@@ -152,6 +152,10 @@ public class NodoNT implements INodo
         else if (op == TipoOperacao.NEGACAO) {
             return new ResultValue(!(expr.avalia().getBool()));
         }
+       else if (op == TipoOperacao.PRINT) {
+            result = expr.avalia();
+            System.out.println("\n" + result);       
+       }
         else {        
             left = subE.avalia();
             right = subD.avalia();
