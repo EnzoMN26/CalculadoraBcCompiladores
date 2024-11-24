@@ -32,6 +32,7 @@ NL  = \n | \r | \r\n
 ">" |
 "," |
 "#" |
+"!" |
 "="   { return (int) yycharat(0); }
 
 if  { return Parser.IF; }
@@ -48,6 +49,10 @@ help {return Parser.HELP;}
 "<=" {return Parser.MenorIgual;}
 "==" {return Parser.IGUAL;}
 "!=" {return Parser.DIFERENTE;}
+"&&" {return Parser.AND;}
+"||" {return Parser.OR;}
+
+
 
 
 

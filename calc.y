@@ -7,11 +7,14 @@
       
 %token NL          /* newline  */
 %token <dval> NUM  /* a number */
-%token IF, WHILE, ELSE, PRINT, FOR, DEFINE, RETURN, MaiorIgual, MenorIgual, IGUAL, DIFERENTE
+%token IF, WHILE, ELSE, PRINT, FOR, DEFINE, RETURN, MaiorIgual, MenorIgual, IGUAL, DIFERENTE, AND, OR
 %token <sval> IDENT, SHOW, SHOWALL, HELP
 
 %type <obj> exp, cmd, line, input, lcmd, lparams, lpassparams, param, passparam, retorno, comando
 
+%nonassoc AND
+%nonassoc OR
+%nonassoc '!'
 %nonassoc '='
 %nonassoc MaiorIgual
 %nonassoc MenorIgual
@@ -50,7 +53,6 @@ cmd :  exp ';'            { $$ = $1; }
     |  FOR '(' exp ';' exp ';' exp ')' cmd {$$ = new NodoNT(TipoOperacao.FOR,(INodo)$3, (INodo)$5, (INodo)$7, (INodo)$9);}
     |  RETURN retorno {$$ = new NodoNT(TipoOperacao.RETURN, (INodo)$2);}
     |  DEFINE IDENT '(' lparams ')' cmd {$$ = new NodoNT(TipoOperacao.FUNCDEF, $2, (INodo)$4, (INodo)$6);}
-    |  IDENT '(' lpassparams ')'  {$$ = new NodoNT(TipoOperacao.FUNCCALL, $1, (INodo)$3);}
     | '{' lcmd '}'                 { $$ = $2; }
     | '#' comando { $$ = $2; }
     | error ';'                    { $$ = new NodoNT(TipoOperacao.NULL, "", null, null); }
@@ -99,6 +101,10 @@ exp:     NUM                { $$ = new NodoTDouble($1); }
        | exp MenorIgual exp { $$ = new NodoNT(TipoOperacao.MENORIGUAL,(INodo)$1,(INodo)$3); }
        | exp IGUAL exp      { $$ = new NodoNT(TipoOperacao.IGUAL,(INodo)$1,(INodo)$3); }
        | exp DIFERENTE exp  { $$ = new NodoNT(TipoOperacao.DIFERENTE,(INodo)$1,(INodo)$3); }
+       | exp AND exp        { $$ = new NodoNT(TipoOperacao.AND,(INodo)$1,(INodo)$3); }
+       | exp OR exp         { $$ = new NodoNT(TipoOperacao.OR,(INodo)$1,(INodo)$3); }
+       | IDENT '(' lpassparams ')'  {$$ = new NodoNT(TipoOperacao.FUNCCALL, $1, (INodo)$3);}
+       | '!' exp            { $$ = new NodoNT(TipoOperacao.NEGACAO,(INodo)$2); }
        | '-' exp  %prec NEG { $$ = new NodoNT(TipoOperacao.UMINUS,(INodo)$2,null); }
        | exp '^' exp        { $$ = new NodoNT(TipoOperacao.POW,(INodo)$1,(INodo)$3); }
        | '(' exp ')'        { $$ = $2; }

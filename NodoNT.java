@@ -128,6 +128,9 @@ public class NodoNT implements INodo
             
             return new ResultValue(arrayAux);
         }
+        else if (op == TipoOperacao.NEGACAO) {
+            return new ResultValue(!(expr.avalia().getBool()));
+        }
         else {        
             left = subE.avalia();
             right = subD.avalia();
@@ -164,7 +167,13 @@ public class NodoNT implements INodo
                 break;    
             case DIFERENTE:
                 result = new ResultValue(left.getDouble() != right.getDouble());
-                break;                  
+                break;  
+            case AND:
+                result = new ResultValue(left.getBool() && right.getBool());
+                break;    
+            case OR:
+                result = new ResultValue(left.getBool() || right.getBool());
+                break;               
             default:
               result = new ResultValue(0);
             }

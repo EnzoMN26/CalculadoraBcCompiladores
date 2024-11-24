@@ -23,5 +23,8 @@ public enum TipoOperacao
     MAIORIGUAL,
     MENORIGUAL,
     IGUAL,
-    DIFERENTE
+    DIFERENTE,
+    AND,
+    OR,
+    NEGACAO
 }
