@@ -3,6 +3,10 @@
 %byaccj
 
 %{
+  //ARQUIVO MODIFICADO POR:
+  //ENZO NOBRE - 21200756 - Enzo.Martins@edu.pucrs.br
+  //LUCIANO SCHWALM - 20106983 - luciano.schwalm@edu.pucrs.br
+  
   private Parser yyparser;
 
   public Yylex(java.io.Reader r, Parser yyparser) {

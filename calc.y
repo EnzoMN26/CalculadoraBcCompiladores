@@ -1,5 +1,9 @@
 
 %{
+  //ARQUIVO MODIFICADO POR:
+  //ENZO NOBRE - 21200756 - Enzo.Martins@edu.pucrs.br
+  //LUCIANO SCHWALM - 20106983 - luciano.schwalm@edu.pucrs.br
+
   import java.io.*;
   import java.util.HashMap;
   import java.util.Stack;
